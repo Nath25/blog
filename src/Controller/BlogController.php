@@ -20,7 +20,21 @@ class BlogController extends AbstractController
             '<html><body>Blog Index</body></html>'
         );*/
         return $this->render('blog/index.html.twig', [
-            'owner' => 'Thomas',
+            'owner' => 'Nath',
     ]);
+    }
+
+
+    /**
+     * @Route("/blog/show/{slug}", 
+     * defaults={"slug"="Article Sans Titre"}, 
+     * requirements={"slug"="[a-z0-9-]*"}, name="blog_show")
+     */
+    public function show($slug)
+    {
+
+        $title = ucwords($slug);
+        $title = str_replace('-',' ',$title);
+        return $this->render('blog/show.html.twig',['title'=>$title]);
     }
 }
