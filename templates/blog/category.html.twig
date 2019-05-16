@@ -10,8 +10,8 @@
     <div>
         {% for article in articles %}
             <div>
-                <h1>{{ article.id }}</h1>
-                <h2>Real article s title : {{ article.title }}</h2>
+                <h1>{{ article.id }} - {{ article.title }}</h1>
+
                 <p>{{ article.content }}</p>
             </div>
         {% endfor %}
