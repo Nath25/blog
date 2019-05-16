@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-    * @Route("/default/index")
+    * @Route("/",name="app_index")
     */
     public function index()
     {
@@ -19,7 +19,7 @@ class DefaultController extends AbstractController
             '<html><body>Blog Index</body></html>'
         );*/
         return $this->render('blog/default.html.twig', [
-            'owner' => 'Thomas',
+            'owner' => 'nath',
     ]);
     }
 }
