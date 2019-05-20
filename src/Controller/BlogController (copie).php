@@ -84,19 +84,26 @@ class BlogController extends AbstractController
 
     /**
      * Getting a category with a formatted categoryName for name
-     * @Route("/category/{name}", name="show_category")
+     *
+     * @param string $categoryName The slugger
+     *
+     * @Route("/category/{categoryName}", name="show_category")
      * * @return Response A response instance
      */
-    public function showByCategory (category $category) : Response
+    public function showByCategory (string $categoryName) : Response
     {
+        $category = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findOneBy(['name' => mb_strtolower($categoryName)]);
 
-        $article = $category->getArticles();
-
-
+        $article = $this->getDoctrine()
+            ->getRepository(Article::class)
+           /* ->findBy(['title' => mb_strtolower($category)]);*/
+            ->findBy(['category' => $category], ['id' => 'DESC'], 3);
         return $this->render(
             'blog/category.html.twig',
             [
-                'category' => $category,
+                'category' => $categoryName,
                 'articles' => $article
             ]
         );
