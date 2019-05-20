@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Tag;
 
 
 class BlogController extends AbstractController
@@ -36,13 +37,13 @@ class BlogController extends AbstractController
         );
     }
 
-
+//* @Route("/{slug<^[a-z0-9-]+$>}",
     /**
      * Getting a article with a formatted slug for title
      *
      * @param string $slug The slugger
      *
-     * @Route("/{slug<^[a-z0-9-]+$>}",
+     * @Route("/{slug}",
      *     defaults={"slug" = null},
      *     name="blog_show")
      * @return Response A response instance
@@ -102,4 +103,26 @@ class BlogController extends AbstractController
         );
 
     }
+
+
+
+    /**
+     * @Route("/tag/{name}", name="show_tag")
+     */
+    public function showByTag (Tag $tag) : Response
+    {
+
+        $article = $tag->getArticles();
+
+
+        return $this->render(
+            'blog/tag.html.twig',
+            [
+                'tag' => $tag,
+                'articles' => $article
+            ]
+        );
+
+    }
+
 }

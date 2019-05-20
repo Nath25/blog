@@ -1,0 +1,21 @@
+{# templates/blog/tag.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1> {{  tag.name  }} </h1>
+    <div>
+        {% for article in articles %}
+            <div>
+                <h2>{{ article.id }} - <a href="{{  path ('blog_show' ,{'slug': article.title }) }}" > {{ article.title }}</a></h2>
+
+                <p>{{ article.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ path('app_index') }}">
+        Back to homepage.
+    </a>
+
+{% endblock %}
