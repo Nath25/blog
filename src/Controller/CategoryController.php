@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Form\CategoryType;
 use App\Entity\Category;
 use App\Repository\ArticleRepository;
