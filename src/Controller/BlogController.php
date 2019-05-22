@@ -4,11 +4,20 @@ namespace App\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Tag;
+use App\Form\ArticleSearchType;
+use App\Form\CategoryType;
+
+
+use PhpParser\Node\Expr\Cast\Object_;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\FormInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
 class BlogController extends AbstractController
@@ -31,9 +40,19 @@ class BlogController extends AbstractController
             );
         }
 
+        $form = $this->createForm(
+            ArticleSearchType::class,
+            null,
+            ['method' => Request::METHOD_GET]
+        );
+
+
+
         return $this->render(
-            'blog/index.html.twig',
-            ['articles' => $articles]
+            'blog/index.html.twig', [
+                'articles' => $articles,
+                'form' => $form->createView(),
+            ]
         );
     }
 
@@ -93,6 +112,7 @@ class BlogController extends AbstractController
 
         $article = $category->getArticles();
 
+        $category = new Category();
 
         return $this->render(
             'blog/category.html.twig',
@@ -102,6 +122,18 @@ class BlogController extends AbstractController
             ]
         );
 
+    }
+
+
+
+    /**
+     * @Route("/blog/categorylist/{category_id}", name="show_oneCat")
+     * @ParamConverter("id", class="App\Entity\Category", options={"id"="category_id"})
+     */
+    public function showCategories(Category $id) {
+        return $this->render('blog/categoryList.html.twig', [
+            'category'=> $id
+        ]);
     }
 
 

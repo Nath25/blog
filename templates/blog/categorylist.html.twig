@@ -1,0 +1,26 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 >Category List</h1>
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{{ path('show_category', { 'name': category.name }) }}">{{ category.name }}</a>
+            </li>
+        {% endfor %}
+        </br>
+    </ul>
+    <hr>
+
+    </br>
+    <h2>Add a new category :</h2>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+
+{% endblock %}
