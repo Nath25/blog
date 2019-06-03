@@ -15,6 +15,21 @@
                 <a class="nav-link" href="{{ path('category_list') }}"> Categories </a>
             </li>
 
+            <li>
+                {% if app.user.username is defined %}
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('app_logout') }}">logout</a>
+            </li>
+
+
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                </li>
+            {% endif %}
+            </li>
+
         </ul>
     </div>
 </nav>

@@ -45,6 +45,13 @@ class Article
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="articles")
+     */
+    private $author;
+
+
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -130,6 +137,20 @@ class Article
 
         return $this;
     }
+
+    public function getAuthor(): ?user
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?user $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+
 
 
 }
