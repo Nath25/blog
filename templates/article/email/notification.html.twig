@@ -1,0 +1,13 @@
+
+{% block title%}Envoi mail{% endblock %}
+
+{% block body %}
+
+    <h1>Ajout d'un nouvel Article</h1>
+
+    <p>Title: {{ article.title }}</p>
+    <p>Content : {{ article.content }}</p>
+    <a href="http://127.0.0.1:8000/article/{{ article.id }}">lien article</a>
+    <p>Bonne réception ...</p>
+
+{% endblock %}
