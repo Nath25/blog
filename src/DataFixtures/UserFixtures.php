@@ -22,22 +22,20 @@ class UserFixtures extends Fixture
     {
         // Création d’un utilisateur de type “auteur”
         $author = new User();
-        $author->setEmail('natyv225@gmail.com');
+        $author->setEmail('author@monsite.com');
         $author->setRoles(['ROLE_AUTHOR']);
         $author->setPassword($this->passwordEncoder->encodePassword(
             $author,
-            'natyv'
+            'author25'
         ));
-
         $manager->persist($author);
-
         // Création d’un utilisateur de type “administrateur”
         $admin = new User();
-        $admin->setEmail('cortes.nathalie@sfr.fr');
+        $admin->setEmail('admin@monsite.com');
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordEncoder->encodePassword(
             $admin,
-            'nath25'
+            'admin25'
         ));
 
         $manager->persist($admin);

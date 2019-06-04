@@ -16,6 +16,7 @@ use App\Form\CategoryType;
 
 use PhpParser\Node\Expr\Cast\Object_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -156,5 +157,24 @@ class BlogController extends AbstractController
         );
 
     }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/blog/taglist/", name="tag_list")
+     * @return Response A response instance
+     */
+    public function showByTagList() : Response
+    {
+        $tag = $this->getDoctrine()
+            ->getRepository(Tag::class)
+            ->findAll();
+        return $this->render(
+            'blog/taglist.html.twig',
+            [
+                'tag' => $tag,
+            ]
+        );
+    }
+
 
 }

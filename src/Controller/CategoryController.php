@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 class CategoryController extends AbstractController
@@ -24,6 +24,7 @@ class CategoryController extends AbstractController
      * @Route("/blog/categorylist/", name="category_list")
      * @param Request $request
      * @param ObjectManager $manager
+     * @IsGranted("ROLE_ADMIN")
      * @return Response A response instance
      */
     public function add(Request $request, ObjectManager $manager)

@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Entity\User;
+use App\Service\Slugify;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\Slugify;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 /**
  * @Route("/article")
@@ -21,12 +25,15 @@ class ArticleController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository): Response
     {
+        $user = $this->getUser();
         return $this->render('article/index.html.twig', [
             'articles' => $articleRepository->findAll(),
+            'user'=>$user,
         ]);
     }
 
     /**
+     * @IsGranted("ROLE_AUTHOR")
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
     public function new(Request $request,Slugify $slugify ,\Swift_Mailer $mailer): Response
@@ -69,8 +76,10 @@ class ArticleController extends AbstractController
      */
     public function show(Article $article): Response
     {
+        $user = $this->getUser();
         return $this->render('article/show.html.twig', [
             'article' => $article,
+            'user'=> $user,
         ]);
     }
 
