@@ -51,7 +51,7 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-           // $adrDest  ='natyv225@gmail.com';
+           
             $message = (new \Swift_Message('Un nouvel article vient d\'être publié !'))
                // ->setFrom('cn@aol.com')
                 //->setTo($adrDest)
@@ -88,6 +88,7 @@ class ArticleController extends AbstractController
      */
     public function edit(Request $request, Article $article, Slugify $slugify): Response
     {
+        $this->denyAccessUnlessGranted('edit', $article);
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
