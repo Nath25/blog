@@ -10,6 +10,13 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
+    {% for category, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <body>
 
         {% include 'navbar.html.twig' %}

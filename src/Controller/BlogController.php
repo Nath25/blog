@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class BlogController extends AbstractController
@@ -29,8 +30,14 @@ class BlogController extends AbstractController
      * @Route("/", name="index")
      * @return Response A response instance
      */
-    public function index(): Response
+    public function index(SessionInterface $session): Response
     {
+        if (!$session->has('total')) {
+            $session->set('total', 0); // if total doesn’t exist in session, it is initialized.
+        }
+      
+        $total = $session->get('total'); // get actual value in session with ‘total' key.
+
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();

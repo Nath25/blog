@@ -62,6 +62,8 @@ class ArticleController extends AbstractController
 
             $mailer->send($message);
 
+             // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'The new article has been created');
             return $this->redirectToRoute('article_index');
         }
 
@@ -88,7 +90,13 @@ class ArticleController extends AbstractController
      */
     public function edit(Request $request, Article $article, Slugify $slugify): Response
     {
+        $user = $this->getUser();
+        $author = $article->getAuthor();
+        if ($user != $author && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException("Accès refusé ! Vous n'avez pas les droits" );
+        }
         $this->denyAccessUnlessGranted('edit', $article);
+        
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -117,6 +125,8 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+
+            $this->addFlash('danger', 'The article has been deleted');
         }
 
         return $this->redirectToRoute('article_index');

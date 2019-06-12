@@ -12,7 +12,8 @@
         <button type="submit" name="btnSearch">Rechercher</button>
     {{ form_end(form) }}
 
-    <h1>All articles from article s table : </h1>
+    <h1>All articles from article's table : {{ app.session.get('total') }}</h1>
+    
     {% for article in articles %}
         <div>
             <h2>{{ loop.index }} / {{ article.title }} - Category : {{ article.category.name }}</h2>
