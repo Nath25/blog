@@ -26,9 +26,16 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository): Response
     {
         $user = $this->getUser();
+
+
+        //return $this->render('article/index.html.twig', [
+        //  'articles' => $articleRepository->findAll(),
+        //'user'=>$user,
+        //]);
+
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
-            'user'=>$user,
+            'articles' => $articleRepository->findAllWithCategoriesAndTags(),
         ]);
     }
 
@@ -82,6 +89,7 @@ class ArticleController extends AbstractController
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'user'=> $user,
+            'isFavorite' => $this->getUser()->isFavorite($article)
         ]);
     }
 
@@ -95,7 +103,7 @@ class ArticleController extends AbstractController
         if ($user != $author && !$this->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException("Accès refusé ! Vous n'avez pas les droits" );
         }
-        $this->denyAccessUnlessGranted('edit', $article);
+        //$this->denyAccessUnlessGranted('edit', $article);
         
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -131,4 +139,25 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('article_index');
     }
+
+
+    /**
+     * $Route(("/{id}", name="article_favorite", methods={"POST","GET"])
+     */
+    public function favorite(Request $request, Article $article)
+    {
+
+        $user = $this->getUser();
+        $Manager->addArticleFavori($user, $article);
+        $Manager->flush();
+
+        return $this->render('article/show.html.twig', [
+            'article' => $article,
+            'user'=> $user,
+        ]);
+
+
+    }
 }
+
+

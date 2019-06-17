@@ -35,6 +35,9 @@
             <li>No tags for this article</li>
         {% endfor %}
     </ul>
+    <a href="#" onclick="addToFavorite()">
+        <i id="favorite" class="{{ app.user.isFavorite(article) ? 'fas' : 'far' }} fa-heart"></i>
+    </a>
 
     <a href="{{ path('article_index') }}">Back to list</a>
 
