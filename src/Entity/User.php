@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -188,10 +189,15 @@ class User implements UserInterface
         return $this;
     }
 
-    public function isFavorite(Article $article)
+    /**
+     * @return boolean
+     */
+    public function isFavorite(Article $articleFavori) :bool
     {
-        return $this->getArticleFavori();
-
-
+        if ($this->article_Favori->contains($articleFavori)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -36,6 +36,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/index.html.twig', [
             'articles' => $articleRepository->findAllWithCategoriesAndTags(),
+            'user'=>$user,
         ]);
     }
 
@@ -91,6 +92,7 @@ class ArticleController extends AbstractController
             'user'=> $user,
             'isFavorite' => $this->getUser()->isFavorite($article)
         ]);
+
     }
 
     /**
@@ -141,22 +143,31 @@ class ArticleController extends AbstractController
     }
 
 
+
     /**
-     * $Route(("/{id}", name="article_favorite", methods={"POST","GET"])
+     * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
      */
     public function favorite(Request $request, Article $article)
     {
-
         $user = $this->getUser();
-        $Manager->addArticleFavori($user, $article);
-        $Manager->flush();
 
-        return $this->render('article/show.html.twig', [
-            'article' => $article,
-            'user'=> $user,
+        if (!$user->getArticleFavori()->contains($article)) {
+            $user->addArticleFavori($article);
+
+        }else {
+            $user->removeArticleFavori($article);
+
+        }
+        $this->getDoctrine()->getManager()->flush();
+
+        //return $this->render('article/show.html.twig', [
+        //    'article' => $article,
+        //    'user'=> $user,
+        //]);
+
+        return $this->json([
+            'isFavorite' => $this->getUser()->isFavorite($article)
         ]);
-
-
     }
 }
 

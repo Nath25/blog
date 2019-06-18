@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Favori</th>
                 <th>Content</th>
                 <th>Category</th>
                 <th>Tags</th>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
+                <td>{% if app.user %}<i id="favorite" class="{{ app.user.isFavorite(article) ? 'fas' : 'far' }} fa-heart"></i>{% else %} ? {% endif %}</td>
                 <td>{{ article.content }}</td>
                 <td>{{ article.category.name }}</td>
 
