@@ -8,6 +8,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path('app_index') }}">Home <span class="sr-only">(current)</span></a>
             </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('article_index') }}"> Articles </a>
             </li>
@@ -26,16 +27,34 @@
             {% endif %}
 
             <li>
-                {% if app.user.username is defined %}
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('app_logout') }}">logout</a>
+                <li class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choix language
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('app_index.fr', {'_locale': 'fr'}) }}">Français</a>
+                        <a class="dropdown-item" href="{{ path('app_index.en', {'_locale':'en'}) }}">English</a>
+                        <a class="dropdown-item" href="{{ path('app_index.es', {'_locale': 'es'}) }}">Español</a>
+                        
+                    </div>
                 </li>
+                {% if app.user.username is defined %}
+                    
 
+                    <li class="nav-item active">
+                        {#<a class="nav-link" href="{{ path('app_logout') }}">logout</a>#}
+                        {% trans with {'%username%': app.user.email} %}
+                            hello_username
+                        {% endtrans %} !
+                        <a class="nav-link" href="{{ path('app_logout') }}"> {{ 'account.logout'|trans }}</a>
+                    </li>
 
                 {% else %}
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                        <a class="nav-link" href="{{ path('app_login') }}"> {{ 'account.login'|trans }}</a>
+                        {#<a class="nav-link" href="{{ path('app_login') }}">Login</a>#}
                     </li>
                 {% endif %}
             </li>
